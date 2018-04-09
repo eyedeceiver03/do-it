@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #4c3a9e;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.todo-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.todo-input input {
+  width: 50%;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #6358ab;
+  color: white;
+  background-color: #4c3a9e;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 400;
+  text-indent: 15px;
+  font-size: 18px;
+}
+
+.todo-input button {
+  width: 50%;
+  height: 40px;
+  border: none;
+  background: #00b6f1;
+  border-radius: 2px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.todo-input button:hover {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+/* List of tasks */
+section {
+  margin-top: 10px;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+  width: calc(50% - 40px);
+  background-color: #fffffe;
+  color: #595959;
+  font-weight: 700;
+  /* border-bottom: 5px solid mediumspringgreen; */
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mark-done, .delete-undone, .delete-done {
+  background-color: #fffffe;
+  border: none;
+  cursor: pointer;
+  color: #009ee0;
+}
+
+.mark-done, .mark-undone {
+  margin-right: 10px;
+}
+
+.delete-undone, .delete-done { 
+  color: #ee4c4c;
+}
+
+.mark-undone {
+  color: #ffdb4a;
+}
+
+.delete-done {
+  background-color: rgb(175, 173, 173);
+}
+
+.darken {
+  background-color: rgb(175, 173, 173);
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
