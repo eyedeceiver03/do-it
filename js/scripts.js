@@ -36,16 +36,16 @@
     let index = e.target.id.split('undone-')[1]
     let undone = retrieveUndoneFromLocalStorage()
     let done = retrieveDoneFromLocalStorage()
-    done.filter((element, i) => {
+    let resultArray = done.filter((element, i) => {
       if(i == index) {
         arrToPush = element
       }
       return i != index
     })
     undone.push(arrToPush)
-    console.log(arrToPush)
+    console.log(resultArray)
     localStorage.setItem('undone', JSON.stringify(undone))
-    localStorage.setItem('done', JSON.stringify(done))
+    localStorage.setItem('done', JSON.stringify(resultArray))
 
     viewUndoneTask()
     viewDoneTask()
