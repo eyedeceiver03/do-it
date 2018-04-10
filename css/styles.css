@@ -124,6 +124,10 @@ header {
 }
 
 /* List of tasks */
+i {
+  padding: 3px 7px;
+}
+
 section {
   margin-top: 10px;
 }

@@ -57,10 +57,10 @@
     let undone = retrieveUndoneFromLocalStorage()
     let done = retrieveDoneFromLocalStorage()
     let resultArray = done.filter((element, i) => {
-      if(i == index) {
+      if(i === parseInt(index)) {
         objToPush = element
-      }
-      return i != index
+      } 
+      return i !== parseInt(index)
     })
     undone.push(objToPush)
     localStorage.setItem('undone', JSON.stringify(undone))
@@ -94,7 +94,6 @@
   function viewUndoneTask () {
     let listOfTasks = retrieveUndoneFromLocalStorage()
     const undone = document.querySelector('.undone')
-    
     if(listOfTasks.length > 0) {
       let DOMFragment = ''
       listOfTasks.forEach((el, i) => {
@@ -102,13 +101,8 @@
           <li>
             <span>${el.task}</span>
             <div class="control">
-              
-              <button class="mark-done" id="done-${i}">
-                <i class="fas fa-check"></i>
-              </button>
-              <button class="delete-undone" id="delete-undone-${i}">
-                <i class="fas fa-times"></i>
-              </button>
+              <i class="fa fa-check mark-done" id="done-${i}"></i>
+              <i class="fa fa-times delete-undone" id="delete-undone-${i}"></i>
             </div>
           </li>
         `
@@ -133,19 +127,14 @@
     let listOfTasks = retrieveDoneFromLocalStorage()
     const done = document.querySelector('.done')
     if(listOfTasks.length > 0) {
-      console.log(listOfTasks)
       let DOMFragment = ''
       listOfTasks.forEach((el, i) => {
         DOMFragment += `
           <li class="darken">
             <span class="strikethrough">${el.task}</span>
             <div class="control">
-              <button class="mark-undone" id="undone-${i}">
-                <i class="fas fa-redo-alt"></i>
-              </button>
-              <button class="delete-done" id="delete-done-${i}">
-                <i class="fas fa-times"></i>
-              </button>
+              <i class="fa fa-undo mark-undone" id="undone-${i}"></i>
+              <i class="fa fa-times delete-done" id="delete-done-${i}"></i>
             </div>
           </li>
         `
