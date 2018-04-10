@@ -2,8 +2,28 @@
   const addBtn = document.querySelector('#btn-add')
   addBtn.addEventListener('click', e => {
     const task = document.querySelector('#task').value
-    addTask(task)
+    const sanitizedString = sanitize(task)
+
+    if(sanitizedString.trim()) {
+      addTask(sanitizedString)
+    } else {
+      alert('Please enter a task. :)')
+    }
   })
+
+  // Sanitize string
+  function sanitize(str) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        "/": '&#x2F;',
+    };
+    const reg = /[&<>"'/]/ig;
+    return str.replace(reg, (match)=>(map[match]));
+  }
 
   const retrieveDoneFromLocalStorage = () => {
     let data = JSON.parse(localStorage.getItem('done'))
@@ -32,18 +52,17 @@
   }
 
   const markUndoneEvent = (e) => {
-    let arrToPush
+    let objToPush
     let index = e.target.id.split('undone-')[1]
     let undone = retrieveUndoneFromLocalStorage()
     let done = retrieveDoneFromLocalStorage()
     let resultArray = done.filter((element, i) => {
       if(i == index) {
-        arrToPush = element
+        objToPush = element
       }
       return i != index
     })
-    undone.push(arrToPush)
-    console.log(resultArray)
+    undone.push(objToPush)
     localStorage.setItem('undone', JSON.stringify(undone))
     localStorage.setItem('done', JSON.stringify(resultArray))
 
@@ -75,68 +94,76 @@
   function viewUndoneTask () {
     let listOfTasks = retrieveUndoneFromLocalStorage()
     const undone = document.querySelector('.undone')
-
-    let DOMFragment = ''
-    listOfTasks.forEach((el, i) => {
-      DOMFragment += `
-        <li>
-          <span>${el.task}</span>
-          <div class="control">
-            
-            <button class="mark-done" id="done-${i}">
-              <i class="fas fa-check"></i>
-            </button>
-            <button class="delete-undone" id="delete-undone-${i}">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </li>
-      `
-    })
-    undone.innerHTML = DOMFragment
     
-    let markDone = document.querySelectorAll('.mark-done')
-    markDone.forEach(button => {
-      button.addEventListener('click', markDoneEvent)
-    })
+    if(listOfTasks.length > 0) {
+      let DOMFragment = ''
+      listOfTasks.forEach((el, i) => {
+        DOMFragment += `
+          <li>
+            <span>${el.task}</span>
+            <div class="control">
+              
+              <button class="mark-done" id="done-${i}">
+                <i class="fas fa-check"></i>
+              </button>
+              <button class="delete-undone" id="delete-undone-${i}">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </li>
+        `
+      })
+      undone.innerHTML = DOMFragment
+      
+      let markDone = document.querySelectorAll('.mark-done')
+      markDone.forEach(button => {
+        button.addEventListener('click', markDoneEvent)
+      })
 
-    let deleteUndone = document.querySelectorAll('.delete-undone')
-    deleteUndone.forEach(button => {
-      button.addEventListener('click', deleteUndoneEvent)
-    })
+      let deleteUndone = document.querySelectorAll('.delete-undone')
+      deleteUndone.forEach(button => {
+        button.addEventListener('click', deleteUndoneEvent)
+      })
+    } else {
+      undone.innerHTML = ''
+    }
   }
 
   function viewDoneTask () {
     let listOfTasks = retrieveDoneFromLocalStorage()
     const done = document.querySelector('.done')
-
-    let DOMFragment = ''
-    listOfTasks.forEach((el, i) => {
-      DOMFragment += `
-        <li class="darken">
-          <span class="strikethrough">${el.task}</span>
-          <div class="control">
-            <button class="delete-done mark-undone" id="undone-${i}">
-              <i class="fas fa-redo-alt"></i>
-            </button>
-            <button class="delete-done" id="delete-done-${i}">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </li>
-      `
-    })
-    done.innerHTML = DOMFragment
-
-    let markUndone = document.querySelectorAll('.mark-undone')
-    markUndone.forEach(button => {
-      button.addEventListener('click', markUndoneEvent)
-    })
-
-    let deleteDone = document.querySelectorAll('.delete-done')
-    deleteDone.forEach(button => {
-      button.addEventListener('click', deleteDoneEvent)
-    })
+    if(listOfTasks.length > 0) {
+      console.log(listOfTasks)
+      let DOMFragment = ''
+      listOfTasks.forEach((el, i) => {
+        DOMFragment += `
+          <li class="darken">
+            <span class="strikethrough">${el.task}</span>
+            <div class="control">
+              <button class="mark-undone" id="undone-${i}">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+              <button class="delete-done" id="delete-done-${i}">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </li>
+        `
+      })
+      done.innerHTML = DOMFragment
+  
+      let markUndone = document.querySelectorAll('.mark-undone')
+      markUndone.forEach(button => {
+        button.addEventListener('click', markUndoneEvent)
+      })
+  
+      let deleteDone = document.querySelectorAll('.delete-done')
+      deleteDone.forEach(button => {
+        button.addEventListener('click', deleteDoneEvent)
+      })
+    } else {
+      done.innerHTML = ''
+    }
   }
 
   const addTask = (task) => {
